@@ -1,0 +1,52 @@
+.side-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background-color: white;
+  border-right: 1px solid #ccc;
+  transition: width 0.3s ease;
+  overflow: hidden;
+}
+
+.side-bar.open {
+  width: 200px;
+}
+
+.side-bar.closed {
+  width: 60px;
+}
+
+.side-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px;
+}
+
+.toggle-btn {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.nav-list {
+  list-style: none;
+  padding: 0;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  padding: 10px 12px;
+  cursor: pointer;
+}
+
+.nav-item:hover {
+  background-color: #f0f0f0;
+}
+
+.icon {
+  margin-right: 10px;
+}
