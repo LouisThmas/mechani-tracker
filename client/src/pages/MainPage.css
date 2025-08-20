@@ -1,0 +1,9 @@
+.layout {
+  display: flex;
+  height: 100vh; /* sidebar + content fill screen */
+}
+
+.content {
+  flex-grow: 1;    /* take up remaining space */
+  padding: 0px 20px;
+}

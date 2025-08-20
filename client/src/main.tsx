@@ -1,15 +1,17 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import HomePage from './pages/HomePage';
+import MainPage from './pages/MainPage';
 import NotFoundPage from './pages/NotFoundPage';
 import ProfilePage from './pages/ProfilePage';
 import DashboardPage from './pages/DashboardPage';
 import './index.css'
+import NewTiresPage from './pages/NewTiresPage';
+import StoredTiresPage from './pages/StoredTiresPage';
 
 const router = createBrowserRouter([{
   path: '/',
-  element: <HomePage />,
+  element: <MainPage />,
   errorElement: <NotFoundPage />,
   children: [
     {
@@ -19,6 +21,14 @@ const router = createBrowserRouter([{
     {
       path: '/dashboard',
       element: <DashboardPage />
+    },
+    {
+      path: '/newtires',
+      element: <NewTiresPage />
+    },
+    {
+      path: '/storedtires',
+      element: <StoredTiresPage />
     }
   ]
 }]);

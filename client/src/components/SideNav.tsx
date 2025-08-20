@@ -8,8 +8,10 @@ interface SideNavProps {
 
 export default function SideNav({ isOpen, onToggle }: SideNavProps) {
   const navItems = [
-    { title: 'dashboard', icon: '🏠' },
-    { title: 'profile', icon: '👤' },
+    { title: 'Dashboard', page: 'dashboard', icon: '🏠' },
+    { title: 'New tires', page: 'newtires', icon: '👤' },
+    { title: 'Stored Tires', page: 'storedtires', icon: '👤' },
+    { title: 'Profile', page: 'profile', icon: '👤' },
     // { title: 'Settings', icon: '⚙️' },
   ];
 
@@ -28,7 +30,7 @@ export default function SideNav({ isOpen, onToggle }: SideNavProps) {
 
         <div className="nav-list">
             {navItems.map((item) => (
-                <Link key={item.title} to={item.title} className="nav-item">
+                <Link key={item.title} to={item.page} className={`nav-item ${item.page == 'profile' ? 'profile' : ''}`}>
                     <span className="icon">{item.icon}</span>
                     {isOpen && <span className="label">{item.title}</span>}
                 </Link>
