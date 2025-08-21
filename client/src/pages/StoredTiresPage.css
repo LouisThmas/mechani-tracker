@@ -3,4 +3,5 @@
     justify-content: center;
     border: 2px solid black;
     height: 100%;
+    border-radius: 10px;
 }

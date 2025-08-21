@@ -1,0 +1,54 @@
+.content {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.input-box {
+    flex-direction: column;
+    display: flex;
+    flex-grow: 1;
+    justify-content: center;
+}
+
+.inventory-container {
+    display: flex;
+    height: 500px;
+    flex-direction: column;
+    overflow-y: scroll;
+}
+
+.inventory-container::-webkit-scrollbar {
+  display: none;
+}
+
+.add-button {
+    flex-grow: 1;
+    flex-direction: column;
+    display: flex;
+    justify-content: center;
+}
+
+tr:nth-child(even) {
+  background-color: #4d555567;
+}
+
+tr {
+    height: 100px;
+}
+
+td, thead, th {
+    border: 1px solid black;
+}
+
+th:hover {
+    cursor: pointer;
+}
+
+td:hover {
+    background-color: rgba(0, 0, 0, 0.349);
+}
+
+table {
+  border-collapse: collapse;
+}
