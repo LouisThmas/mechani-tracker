@@ -1,3 +1,9 @@
+import TableComponent from "../components/Table";
+
 export default function StoredTiresPage() {
-    return <p>I am stored tires</p>
+    return (
+        <div className="main">
+            <TableComponent/>
+        </div> 
+    ) 
 }
