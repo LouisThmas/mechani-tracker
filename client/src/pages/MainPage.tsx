@@ -15,12 +15,3 @@ export default function MainPage() {
     </div>
   );
 }
-
-/*return (
-    <>
-      <SideNav isOpen={isOpen} onToggle={setIsOpen} />
-      <main style={{ marginLeft: isOpen ? 200 : 60, padding: 20 }}>
-        <Outlet />
-      </main>
-    </>
-  );*/

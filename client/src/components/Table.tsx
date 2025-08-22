@@ -1,177 +1,39 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { Tire } from "../types/common";
 import './Table.css'
 import TableBody from "./TableBody";
+import { filterItems } from "../functions";
 
 const TableComponent = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [sortBy, setSortBy] = useState<keyof Tire>("id");
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+  const [data, setData] = useState([]);
 
-  const data: Tire[] = [
-    {
-      id: '1',
-      owner: {
-        name: 'jean guy'
-      },
-      brand: 'Michelin',
-      model: 'Defender',
-      size: {
-        type: 'p',
-        width: 225,
-        ratio: 75,
-        radius: 16
-      },
-      type: 'summer',
-      tread: 8,
-      rim: true,
-      events: [],
-    },
-        {
-      id: '1',
-      owner: {
-        name: 'jean guy'
-      },
-      brand: 'Michelin',
-      model: 'Defender',
-      size: {
-        type: 'p',
-        width: 225,
-        ratio: 75,
-        radius: 16
-      },
-      type: 'summer',
-      tread: 8,
-      rim: true,
-      events: [],
-    },
-        {
-      id: '1',
-      owner: {
-        name: 'jean guy'
-      },
-      brand: 'Michelin',
-      model: 'Defender',
-      size: {
-        type: 'p',
-        width: 225,
-        ratio: 75,
-        radius: 16
-      },
-      type: 'summer',
-      tread: 8,
-      rim: true,
-      events: [],
-    },
-        {
-      id: '1',
-      owner: {
-        name: 'jean guy'
-      },
-      brand: 'Michelin',
-      model: 'Defender',
-      size: {
-        type: 'p',
-        width: 225,
-        ratio: 75,
-        radius: 16
-      },
-      type: 'summer',
-      tread: 8,
-      rim: true,
-      events: [],
-    },
-        {
-      id: '1',
-      owner: {
-        name: 'jean guy'
-      },
-      brand: 'Michelin',
-      model: 'Defender',
-      size: {
-        type: 'p',
-        width: 225,
-        ratio: 75,
-        radius: 16
-      },
-      type: 'summer',
-      tread: 8,
-      rim: true,
-      events: [],
-    },
-        {
-      id: '1',
-      owner: {
-        name: 'jean guy'
-      },
-      brand: 'Michelin',
-      model: 'Defender',
-      size: {
-        type: 'p',
-        width: 225,
-        ratio: 75,
-        radius: 16
-      },
-      type: 'summer',
-      tread: 8,
-      rim: true,
-      events: [],
-    },
-        {
-      id: '1',
-      owner: {
-        name: 'jean guy'
-      },
-      brand: 'Michelin',
-      model: 'Defender',
-      size: {
-        type: 'p',
-        width: 225,
-        ratio: 75,
-        radius: 16
-      },
-      type: 'summer',
-      tread: 8,
-      rim: true,
-      events: [],
-    },
-        {
-      id: '1',
-      owner: {
-        name: 'jean guy'
-      },
-      brand: 'Michelin',
-      model: 'Defender',
-      size: {
-        type: 'p',
-        width: 225,
-        ratio: 75,
-        radius: 16
-      },
-      type: 'summer',
-      tread: 8,
-      rim: true,
-      events: [],
-    },
-        {
-      id: '1',
-      owner: {
-        name: 'jean guy'
-      },
-      brand: 'Michelin',
-      model: 'Defender',
-      size: {
-        type: 'p',
-        width: 225,
-        ratio: 75,
-        radius: 16
-      },
-      type: 'summer',
-      tread: 8,
-      rim: true,
-      events: [],
-    },
-  ];
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('http://localhost:3000/tires');
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          const result = await response.json();
+          setData(result);
+        } catch (err) {
+          if (err instanceof Error)
+          setError(err.message);
+        } finally {
+          setLoading(false);
+        }
+      };
+
+    fetchData();
+  }, []);
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error}</p>;
 
   const handleSort = (key: keyof Tire) => {
     if (sortBy === key) {
@@ -181,17 +43,6 @@ const TableComponent = () => {
       setSortOrder("asc");
     }
   };
-
-  const filterItems = (items: Tire[], searchTerm: string): Tire[] => {
-  const lower = searchTerm.toLowerCase();
-  return items.filter((item) =>
-    item.id.toLowerCase().includes(lower) ||
-    item.owner.name.toLowerCase().includes(lower) ||
-    item.brand.toLowerCase().includes(lower) ||
-    item.model.toLowerCase().includes(lower)
-    );
-  }
-
   
   const sortedData = [...data].sort((a, b) => {
     const aValue = a[sortBy];
