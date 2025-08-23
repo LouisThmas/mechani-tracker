@@ -5,7 +5,7 @@ export interface Client {
 }
 
 export interface Tire {
-  id: string; // unique ID or barcode
+  id: string;
   owner: Client;
   brand: string;
   model: string;

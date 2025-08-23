@@ -1,5 +1,7 @@
 import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { TiresService } from './tires.service';
+import { CreateTireDto } from './create-tire.dto';
+import { Tire } from 'src/types/common';
 
 @Controller('tires')
 export class TiresController {
@@ -34,8 +36,8 @@ export class TiresController {
     
     
     @Post()
-    create(@Body() input: any) {
-        console.log(input);
+    create(@Body() tire: CreateTireDto) {
+        this.tiresService.addTire(tire)
         return {message: 'You want to create a new tire'};
     }
  }
