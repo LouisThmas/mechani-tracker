@@ -22,8 +22,9 @@ const TableComponent = () => {
           const result = await response.json();
           setData(result);
         } catch (err) {
-          if (err instanceof Error)
-          setError(err.message);
+          if (err instanceof Error) {
+            setError(err.message);
+          }
         } finally {
           setLoading(false);
         }
@@ -58,7 +59,7 @@ const TableComponent = () => {
   const filteredData = filterItems(sortedData, searchTerm);
 
   return (
-    <div className="content">
+    <>
       <div className="input-box">
         <input
           type="text"
@@ -97,10 +98,7 @@ const TableComponent = () => {
           <TableBody data={filteredData} />
       </table>
       </div>
-      <div className="add-button">
-        <button>Add a tire</button>
-      </div>
-    </div>
+    </>
   );
 };
 

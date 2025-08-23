@@ -5,9 +5,11 @@ import MainPage from './pages/MainPage';
 import NotFoundPage from './pages/NotFoundPage';
 import ProfilePage from './pages/ProfilePage';
 import DashboardPage from './pages/DashboardPage';
+
 import './index.css'
 import NewTiresPage from './pages/NewTiresPage';
 import StoredTiresPage from './pages/StoredTiresPage';
+import CreateTirePage from './pages/CreateTirePage';
 
 const router = createBrowserRouter([{
   path: '/',
@@ -29,6 +31,10 @@ const router = createBrowserRouter([{
     {
       path: '/storedtires',
       element: <StoredTiresPage />
+    },
+    {
+      path: '/createtire',
+      element: <CreateTirePage />
     }
   ]
 }]);

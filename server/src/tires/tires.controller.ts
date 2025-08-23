@@ -36,6 +36,6 @@ export class TiresController {
     @Post()
     create(@Body() input: any) {
         console.log(input);
-        return 'You want to create a new tire';
+        return {message: 'You want to create a new tire'};
     }
  }
