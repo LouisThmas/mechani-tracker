@@ -1,84 +1,130 @@
-import { useState } from "react";
+import { useReducer } from "react";
+import './CreateTirePage.css'
+
 
 export default function CreateTirePage() {
-    const [form, setForm] = useState({ owner: {name: ""}, brand: "", model: "", size: {type: "", width: 0, ratio: 0, radius: 0}, type: "", tread: 0, rim: false });
+  type Action = | { type: "SET_FIELD"; field: keyof typeof initialFormState; value: any } | { type: "RESET" };
+  
+  const initialFormState = {
+    owner: "",
+    brand: "",
+    model: "",
+    vehicleType: "p" as "p" | "lt" | "c" | "xl" | "t",
+    width: 0,
+    ratio: 0,
+    radius: 0,
+    type: "summer" as "summer" | "winter" | "all-season",
+    tread: 0,
+    rim: "",
+  };
+  
+  const [formState, dispatch] = useReducer(formReducer, initialFormState);
 
-    // const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    //     setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
-    // };
+  const handleChange = (field: keyof typeof initialFormState, value: any) => {
+    dispatch({ type: "SET_FIELD", field, value });
+  };
 
-    // CHANGE THIS ASAP THIS IS BUNS
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
+  function formReducer(state: typeof initialFormState, action: Action) {
+  switch (action.type) {
+    case "SET_FIELD":
+      return { ...state, [action.field]: action.value };
+    case "RESET":
+      return initialFormState;
+    default:
+      return state;
+    }
+  }
 
-        setForm(prev => {
-            const keys = name.split(".");
-            if (keys.length === 1) {
-            return { ...prev, [keys[0]]: value };
-            } else if (keys.length === 2) {
-            return {
-                ...prev,
-                [keys[0]]: {
-                ...prev[keys[0] as keyof typeof prev] as any,
-                [keys[1]]: value
-                }
-            };
-            }
-            return prev;
-        });
-    };
-
-
-    const handleSubmit = async () => {
-      try {
-      const response = await fetch('http://localhost:3000/tires', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(form)
+  const handleSubmit = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/tires", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          owner: { name: formState.owner },
+          brand: formState.brand,
+          model: formState.model,
+          size: {
+            type: formState.vehicleType,
+            width: formState.width,
+            ratio: formState.ratio,
+            radius: formState.radius,
+          },
+          type: formState.type,
+          tread: formState.tread,
+          rim: formState.rim == "true" ? true : false,
+        }),
       });
 
       if (response.ok) {
-        const data = await response.json();
-        console.log('Response data:', data);
-        // setForm({ q1: '', q2: '', q3: '' }); 
+        console.log(await response.json());
+        dispatch({ type: "RESET" });
       } else {
-        console.error('Error:', response.statusText);
+        console.error("Error:", response.statusText);
       }
     } catch (error) {
-      console.error('Fetch error:', error);
+      console.error("Fetch error:", error);
     }
-    }
+  };
 
-    return (
-        <>
-            <label>Customer name
-                <input name="owner.name" value={form.owner.name} onChange={handleChange} />
+  return (
+      <div className="content">
+        <div className="form">
+          <div className="customer-content">
+            <label>Customer name : 
+                <input name="owner.name" value={formState.owner} onChange={(e) => handleChange("owner", e.target.value)} />
             </label>
-            <label>Tire Brand
-                <input name="brand" value={form.brand} onChange={handleChange} />
+          </div>
+          <div>
+            <label>Tire Brand : 
+                  <input name="brand" value={formState.brand} onChange={(e) => handleChange("brand", e.target.value)} />
             </label>
-            <label>Tire model
-                <input name="model" value={form.model} onChange={handleChange} />
+          </div>
+          <div>
+            <label>Tire model : 
+                <input name="model" value={formState.model} onChange={(e) => handleChange("model", e.target.value)} />
             </label>
-            <label>Size
-                <input name="size.type" value={form.size.type} onChange={handleChange} />
-                <input name="size.width" value={form.size.width} onChange={handleChange} />
-                <input name="size.ratio" value={form.size.ratio} onChange={handleChange} />
-                <input name="size.radius" value={form.size.radius} onChange={handleChange} />
+          </div>
+          <div>
+            <label>Size : 
+              <select value={formState.vehicleType} onChange={(e) => handleChange("vehicleType", e.target.value)}>
+                <option value="p">Passenger</option>
+                <option value="lt">Light Truck</option>
+                <option value="c">Commercial</option>
+                <option value="xl">XL</option>
+                <option value="t">Trailer</option>
+              </select>
+                <input name="size.width" value={formState.width} onChange={(e) => handleChange("width", e.target.value)} />
+                <span>/</span>
+                <input name="size.ratio" value={formState.ratio} onChange={(e) => handleChange("ratio", e.target.value)} />
+                <span>R</span>
+                <input name="size.radius" value={formState.radius} onChange={(e) => handleChange("radius", e.target.value)} />
             </label>
-            <label>Tire Type
-                <input name="type" value={form.type} onChange={handleChange} />
+          </div>
+          <div>
+            <label>Tire Type : 
+                <select value={formState.type} onChange={(e) => handleChange("type", e.target.value)}>
+                  <option value="summer">Summer</option>
+                  <option value="winter">Winter</option>
+                  <option value="all-season">All Season</option>
+                </select>
             </label>
-            <label>Tire tread
-                <input name="tread" value={form.tread} onChange={handleChange} />
+          </div>
+          <div>
+            <label>Tire tread : 
+                <input name="tread" value={formState.tread} onChange={(e) => handleChange("tread", e.target.value)} />
             </label>
-            <label>Rim?
-                <input name="q10" type="radio" value='true' onChange={() => {setForm(() => ({...form, rim: true}))}} />
-                <input name="q10" type="radio" value='false' onChange={() => {setForm(() => ({...form, rim: false}))}} />
+          </div>
+          <div>
+            <label>Rim : 
+                <select value={formState.rim} onChange={(e) => handleChange("rim", e.target.value)}>
+                  <option value="true">Yes</option>
+                  <option value="false">No</option>
+                </select>
             </label>
-            <button onClick={handleSubmit}>Submit</button>
-        </>
+          </div>
+          <button onClick={handleSubmit}>Submit</button>
+        </div>
+    </div>
   )
 }
