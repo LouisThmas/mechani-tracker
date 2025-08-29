@@ -1,4 +1,4 @@
-.main {
+.main-content {
     display: flex;
     justify-content: center;
     border: 2px solid black;
@@ -6,4 +6,5 @@
     border-radius: 10px;
     flex-direction: column;
     padding: 0px 100px;
+    width: 100%;
 }

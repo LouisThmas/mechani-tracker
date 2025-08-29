@@ -4,7 +4,7 @@ import './StoredTiresPage.css'
 
 export default function StoredTiresPage() {
     return (
-        <div className="main">
+        <div className="main-content">
             <TableComponent/>
             <div className="add-button">
                 <Link to='/createtire'>

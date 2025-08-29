@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type { Tire } from "../types/common";
 import './Table.css'
 import TableBody from "./TableBody";
@@ -33,6 +33,22 @@ const TableComponent = () => {
     fetchData();
   }, []);
 
+  const sortedData = useMemo(() => {
+  return [...data].sort((a, b) => {
+    const aValue = a[sortBy];
+    const bValue = b[sortBy];
+    if (sortOrder === "asc") {
+      return aValue < bValue ? -1 : aValue > bValue ? 1 : 0;
+    } else {
+      return bValue < aValue ? -1 : bValue > aValue ? 1 : 0;
+    }
+  });
+  }, [data, sortBy, sortOrder]);
+
+  const filteredData = useMemo(() => {
+    return filterItems(sortedData, searchTerm);
+  }, [sortedData, searchTerm]);
+
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;
 
@@ -45,19 +61,6 @@ const TableComponent = () => {
     }
   };
   
-  const sortedData = [...data].sort((a, b) => {
-    const aValue = a[sortBy];
-    const bValue = b[sortBy];
-    
-    if (sortOrder === "asc") {
-      return aValue < bValue ? -1 : aValue > bValue ? 1 : 0;
-    } else {
-      return bValue < aValue ? -1 : bValue > aValue ? 1 : 0;
-    }
-  });
-  
-  const filteredData = filterItems(sortedData, searchTerm);
-
   return (
     <>
       <div className="input-box">
@@ -84,14 +87,14 @@ const TableComponent = () => {
               <th onClick={() => handleSort("model")}>
                 Model {sortBy === "model" && (sortOrder === "asc" ? "↑" : "↓")}
               </th>
-              <th>
-                Size
+              <th onClick={() => handleSort("size")}>
+                Size {sortBy === "size" && (sortOrder === "asc" ? "↑" : "↓")}
               </th>
-              <th>
-                Type
+              <th onClick={() => handleSort("type")}>
+                Type {sortBy === "type" && (sortOrder === "asc" ? "↑" : "↓")}
               </th>
-              <th>
-                Tread
+              <th onClick={() => handleSort("tread")}>
+                Tread {sortBy === "tread" && (sortOrder === "asc" ? "↑" : "↓")}
               </th>
             </tr>
           </thead>

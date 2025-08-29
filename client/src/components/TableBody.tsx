@@ -25,7 +25,7 @@ export default function TableBody({data}: props) {
           <td>{item.owner.name}</td>
           <td>{item.brand}</td>
           <td>{item.model}</td>
-          <td>{item.size.width}</td>
+          <td>{item.size.type.toUpperCase()} {item.size.width} / {item.size.ratio} R {item.size.radius}</td>
           <td>{item.type}</td>
           <td>{item.tread}</td>
         </tr>

@@ -46,12 +46,12 @@ export default function CreateTirePage() {
           model: formState.model,
           size: {
             type: formState.vehicleType,
-            width: formState.width,
-            ratio: formState.ratio,
-            radius: formState.radius,
+            width: Number(formState.width),
+            ratio: Number(formState.ratio),
+            radius: Number(formState.radius),
           },
           type: formState.type,
-          tread: formState.tread,
+          tread: Number(formState.tread),
           rim: formState.rim == "true" ? true : false,
         }),
       });
